@@ -16,7 +16,7 @@ int main(int argc, string argv[])
         {
             if ((atoi(& tmp[i]) == 0) && tmp[i] != 48)
             {
-                printf("Usage: ./caeser key\n");
+                printf("Usage: ./caesar key\n");
                 return 1;
             }
         }
@@ -29,7 +29,7 @@ int main(int argc, string argv[])
     }
     else
     {
-        printf("Usage: ./caeser key\n");
+        printf("Usage: ./caesar key\n");
         return 1;
     }
 }
