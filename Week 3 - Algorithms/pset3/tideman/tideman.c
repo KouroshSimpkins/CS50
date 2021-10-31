@@ -129,9 +129,37 @@ void record_preferences(int ranks[])
 }
 
 // Record pairs of candidates where one is preferred over the other
+// i is preferred over j. Ahh, I see now. (or column vs row)
 void add_pairs(void)
 {
     // TODO
+    int pairCounter = 0;
+
+    for(int i = 0; i < candidate_count; i++)
+    {
+        for(int j = i + 1; j < candidate_count; j++)
+        {
+            // Preferences to check if either candidate wins.
+            // If neither candidate wins (i.e. they both have the same number of votes)
+            // then nothing should be passed to the pair structure.
+            int pref1 = preferences[i][j];
+            int pref2 = preferences[j][i];
+            
+            // If statements check who wins in each case, and assigns a winner and a loser.
+            if (pref1 > pref2)
+            {
+                pairs[pairCounter].winner = i;
+                pairs[pairCounter].loser = j;
+                pairCounter++;
+            }
+            else if (pref2 > pref1)
+            {
+                pairs[pairCounter].winner = j;
+                pairs[pairCounter].loser = i;
+                pairCounter++;
+            }
+        }
+    }
     return;
 }
 
@@ -139,6 +167,19 @@ void add_pairs(void)
 void sort_pairs(void)
 {
     // TODO
+    // To find the margin of victory take pair[i][j] - pair[j][i]
+    int victoryMargin [candidate_count];
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+        victoryMargin[i] = preferences[pairs[i].loser][pairs[i].winner];
+        printf("%d\n", preferences[pairs[i].winner][pairs[i].loser]);
+    }
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+        printf("%d\n", victoryMargin[i]);
+    }
     return;
 }
 
