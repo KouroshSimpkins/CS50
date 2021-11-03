@@ -163,7 +163,7 @@ void tabulate(void)
 bool print_winner(void)
 {
     // TODO
-    int VotesToWin = (voter_count/2) + 1;
+    int VotesToWin = (voter_count / 2) + 1;
 
     for (int i = 0; i < candidate_count; i++)
     {
@@ -197,6 +197,7 @@ bool is_tie(int min)
 {
     // TODO
     int tally = 0;
+    int temp_candidate_count = candidate_count;
 
     for (int i = 0; i < candidate_count; i++)
     {
@@ -204,9 +205,14 @@ bool is_tie(int min)
         {
             tally++;
         }
+
+        if (candidates[i].eliminated == true)
+        {
+            temp_candidate_count--;
+        }
     }
 
-    if (tally == candidate_count)
+    if (tally == temp_candidate_count)
     {
         return true;
     }
