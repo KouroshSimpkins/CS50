@@ -14,15 +14,15 @@ int main(void) {
     while (choice < 1 || choice > 8);
 
 
-    for (int i=0; i<choice; i++)
+    for (int i = 0; i < choice; i++)
     {
-        for (int j=0; j<choice-i-1; j++) {
+        for (int j = 0; j < choice - i - 1; j++) {
             printf("%s", space);
-        } for (int j=0; j<i+1; j++) {
+        } for (int j = 0; j < i + 1; j++) {
             printf("%s", block);
         }
         printf("%s", space);
-        for (int j=0; j<i+1; j++) {
+        for (int j = 0; j < i + 1; j++) {
             printf("%s", block);
         }
 
