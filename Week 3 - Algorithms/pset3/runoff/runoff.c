@@ -143,6 +143,19 @@ bool vote(int voter, int rank, string name)
 void tabulate(void)
 {
     // TODO
+    for (int i = 0; i < voter_count; i++)
+    {
+        for (int j = 0; j < candidate_count; j++)
+        {
+            int VotesFor = preferences[i][j];
+
+            if (candidates[VotesFor].eliminated == false)
+            {
+                candidates[VotesFor].votes++;
+                break;
+            }
+        }
+    }
     return;
 }
 
@@ -150,6 +163,16 @@ void tabulate(void)
 bool print_winner(void)
 {
     // TODO
+    int VotesToWin = (voter_count/2) + 1;
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (candidates[i].votes >= VotesToWin)
+        {
+            printf("%s\n", candidates[i].name);
+            return true;
+        }
+    }
     return false;
 }
 
@@ -157,13 +180,37 @@ bool print_winner(void)
 int find_min(void)
 {
     // TODO
-    return 0;
+    int LowestVotes = MAX_VOTERS;
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (candidates[i].eliminated == false && candidates[i].votes <= LowestVotes)
+        {
+            LowestVotes = candidates[i].votes;
+        }
+    }
+    return LowestVotes;
 }
 
 // Return true if the election is tied between all candidates, false otherwise
 bool is_tie(int min)
 {
     // TODO
+    int tally = 0;
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (candidates[i].votes == min)
+        {
+            tally++;
+        }
+    }
+
+    if (tally == candidate_count)
+    {
+        return true;
+    }
+
     return false;
 }
 
@@ -171,5 +218,12 @@ bool is_tie(int min)
 void eliminate(int min)
 {
     // TODO
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (candidates[i].votes == min && candidates[i].eliminated == false)
+        {
+            candidates[i].eliminated = true;
+        }
+    }
     return;
 }
