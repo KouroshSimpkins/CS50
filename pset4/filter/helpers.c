@@ -83,36 +83,85 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
-    // perform a box blur
-        for (int i = 0; i < height; i++)
+    // perform a box blur which takes into account edges and corners
+    // Create a temporary image
+    RGBTRIPLE temp[height][width];
+    // Copy original image to temporary image
+    for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            int red = 0;
-            int green = 0;
-            int blue = 0;
-            int count = 0;
-
-            // Loop through all pixels in a 3x3 box around the current pixel
-            for (int k = i - 1; k <= i + 1; k++)
+            temp[i][j] = image[i][j];
+        }
+    }
+    // Perform blur
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            // Set RGB values to 0
+            image[i][j].rgbtRed = 0;
+            image[i][j].rgbtGreen = 0;
+            image[i][j].rgbtBlue = 0;
+            // Calculate average of RGB values
+            int avg = 0;
+            // Set RGB values to average
+            if (i - 1 >= 0 && j - 1 >= 0)
             {
-                for (int l = j - 1; l <= j + 1; l++)
-                {
-                    // If pixel is in bounds, add to the sum
-                    if (k >= 0 && l >= 0 && k < height && l < width)
-                    {
-                        red += image[k][l].rgbtRed;
-                        green += image[k][l].rgbtGreen;
-                        blue += image[k][l].rgbtBlue;
-                        count++;
-                    }
-                }
+                avg += temp[i - 1][j - 1].rgbtRed;
+                avg += temp[i - 1][j - 1].rgbtGreen;
+                avg += temp[i - 1][j - 1].rgbtBlue;
             }
-
-            // Set the average RGB values
-            image[i][j].rgbtRed = round(red / count);
-            image[i][j].rgbtGreen = round(green / count);
-            image[i][j].rgbtBlue = round(blue / count);
+            if (i - 1 >= 0)
+            {
+                avg += temp[i - 1][j].rgbtRed;
+                avg += temp[i - 1][j].rgbtGreen;
+                avg += temp[i - 1][j].rgbtBlue;
+            }
+            if (i - 1 >= 0 && j + 1 < width)
+            {
+                avg += temp[i - 1][j + 1].rgbtRed;
+                avg += temp[i - 1][j + 1].rgbtGreen;
+                avg += temp[i - 1][j + 1].rgbtBlue;
+            }
+            if (j - 1 >= 0)
+            {
+                avg += temp[i][j - 1].rgbtRed;
+                avg += temp[i][j - 1].rgbtGreen;
+                avg += temp[i][j - 1].rgbtBlue;
+            }
+            avg += temp[i][j].rgbtRed;
+            avg += temp[i][j].rgbtGreen;
+            avg += temp[i][j].rgbtBlue;
+            if (j + 1 < width)
+            {
+                avg += temp[i][j + 1].rgbtRed;
+                avg += temp[i][j + 1].rgbtGreen;
+                avg += temp[i][j + 1].rgbtBlue;
+            }
+            if (i + 1 < height && j - 1 >= 0)
+            {
+                avg += temp[i + 1][j - 1].rgbtRed;
+                avg += temp[i + 1][j - 1].rgbtGreen;
+                avg += temp[i + 1][j - 1].rgbtBlue;
+            }
+            if (i + 1 < height)
+            {
+                avg += temp[i + 1][j].rgbtRed;
+                avg += temp[i + 1][j].rgbtGreen;
+                avg += temp[i + 1][j].rgbtBlue;
+            }
+            if (i + 1 < height && j + 1 < width)
+            {
+                avg += temp[i + 1][j + 1].rgbtRed;
+                avg += temp[i + 1][j + 1].rgbtGreen;
+                avg += temp[i + 1][j + 1].rgbtBlue;
+            }
+            avg = round(avg / 9.0);
+            // Set RGB values to average
+            image[i][j].rgbtRed = avg;
+            image[i][j].rgbtGreen = avg;
+            image[i][j].rgbtBlue = avg;
         }
     }
     return;
