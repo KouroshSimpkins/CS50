@@ -37,17 +37,18 @@ def STR_Compare(sequence, csv_data):
 
         get_From_Sequence = []
 
+    # compare each value in Strs_In_Sequence with the value in csv_data
     for i in range(len(Strs_In_Sequence)):
-        if Strs_In_Sequence[i] == csv_data and Strs_In_Sequence[i+1] == csv_data:
-            word = "Some STR repeats somewhere"
-        elif Strs_In_Sequence[i] == csv_data:
-            Max_Repeats_Temp += 1
-        else:
-            Max_Repeats_Temp = 0
-            pass
-
-    return word
-
+        for j in range(len(csv_data)):
+            if Strs_In_Sequence[i][j] != csv_data[j]:
+                break
+            else:
+                Max_Repeats_Temp += 1
+                if Max_Repeats_Temp == len(csv_data):
+                    Max_Repeats += 1
+                    Max_Repeats_Temp = 0
+                    break
+    return Max_Repeats
 
 
 def main(argv):
@@ -77,6 +78,7 @@ def main(argv):
         return 1
 
     STR = csv_data[0][1]
+    print(STR)
     print(STR_Compare(dna_sequence, STR))
 
     return 0
