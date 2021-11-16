@@ -41,9 +41,14 @@ def STR_Compare(sequence, csv_data):
     for i in range(len(Strs_In_Sequence)):
         if Strs_In_Sequence[i] == csv_data:
             Max_Repeats_Temp += 1
-            if Strs_In_Sequence[i+len(csv_data)] == csv_data:
-                pass
-            else:
+            try:
+                if Strs_In_Sequence[i+len(csv_data)] == csv_data:
+                    pass
+                else:
+                    if Max_Repeats_Temp > Max_Repeats:
+                        Max_Repeats = Max_Repeats_Temp
+                    Max_Repeats_Temp = 0
+            except IndexError:
                 if Max_Repeats_Temp > Max_Repeats:
                     Max_Repeats = Max_Repeats_Temp
                 Max_Repeats_Temp = 0
@@ -80,15 +85,40 @@ def main(argv):
         print("Usage: python dna.py data.csv sequence.txt")
         return 1
 
-    for j in range(len(csv_data[0])):
+    y_length = len(csv_data[0])
+
+    for j in range(y_length):
         if csv_data[0][j] == 'name':
             pass
         else:
             Final_Str_Dictionary[csv_data[0][j]] = STR_Compare(dna_sequence, csv_data[0][j])
 
-    for word in Final_Str_Dictionary:
-        for column in csv_data:
-            print(column[0], Final_Str_Dictionary[word])
+    PossibleSTRs = csv_data.pop(0)
+
+    broadcast_Val = ""
+
+    for i in range(len(csv_data)):
+        Temp_Match = 0
+        temp_dict = {}
+        for j in range(y_length):
+            temp_dict[PossibleSTRs[j]] = csv_data[i][j]
+
+        # iterate through temp_dict and compare each value to the value in Final_Str_Dictionary, ignoring the name.
+        # If every single value in temp_dict matches the value in Final_Str_Dictionary, then the name is printed.
+        for key, value in temp_dict.items():
+            if key == 'name':
+                pass
+            elif Final_Str_Dictionary[key] == int(value):
+                Temp_Match += 1
+            else:
+                continue
+
+        if Temp_Match == y_length - 1:
+            print(temp_dict['name'])
+            broadcast_Val = "found"
+        
+    if broadcast_Val != "found":
+        print("No match")
 
     return 0
 
