@@ -1,0 +1,27 @@
+What I know:
+- The theft took place on the 28th of July
+- The theft took place on Chamberlin street
+
+What I need to find out:
+- Who the thief is
+- Where the thief escaped to
+- Who the thief's accomplice was
+
+Using fiftyville.db
+
+What is the structure of this table?
+run .tables
+
+tables:
+airports, 
+flights,
+atm_transactions,
+interviews,
+bank_accounts,
+passengers,
+courthouse_security_logs,
+people,
+crime_scene_reports,
+phone_calls.
+
+.schema [table_name]
