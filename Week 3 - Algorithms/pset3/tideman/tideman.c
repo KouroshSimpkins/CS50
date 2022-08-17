@@ -151,12 +151,14 @@ void add_pairs(void)
                 pairs[pairCounter].winner = i;
                 pairs[pairCounter].loser = j;
                 pairCounter++;
+                printf("pref 1 wins\n");
             }
             else if (pref2 > pref1)
             {
                 pairs[pairCounter].winner = j;
                 pairs[pairCounter].loser = i;
                 pairCounter++;
+                printf("pref 2 wins\n");
             }
         }
     }
@@ -173,12 +175,16 @@ void sort_pairs(void)
     for (int i = 0; i < candidate_count; i++)
     {
         victoryMargin[i] = preferences[pairs[i].loser][pairs[i].winner];
-        printf("%d\n", preferences[pairs[i].winner][pairs[i].loser]);
     }
 
     for (int i = 0; i < candidate_count; i++)
     {
-        printf("%d\n", victoryMargin[i]);
+        for (int j = 0; j < candidate_count; j++)
+        {
+            printf("i : %d\n", i);
+            printf("j : %d\n", j);
+            printf("%d\n", preferences[i][j]);
+        }
     }
     return;
 }
